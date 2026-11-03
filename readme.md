@@ -133,6 +133,7 @@ cf push
 - **Frontend**: SAPUI5 1.120.0 with Horizon theme
 - **OData**: V4
 - **Deployment Target**: SAP Business Technology Platform (BTP)
+- **Models**: RPT-1.6
 
 ## Key Features
 - Real-time automation rate monitoring
