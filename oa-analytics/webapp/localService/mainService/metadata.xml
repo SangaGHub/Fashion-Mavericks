@@ -1,0 +1,280 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="4.0" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+    <edmx:Reference Uri="https://oasis-tcs.github.io/odata-vocabularies/vocabularies/Org.OData.Capabilities.V1.xml">
+        <edmx:Include Alias="Capabilities" Namespace="Org.OData.Capabilities.V1"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="https://sap.github.io/odata-vocabularies/vocabularies/Common.xml">
+        <edmx:Include Alias="Common" Namespace="com.sap.vocabularies.Common.v1"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="https://oasis-tcs.github.io/odata-vocabularies/vocabularies/Org.OData.Core.V1.xml">
+        <edmx:Include Alias="Core" Namespace="Org.OData.Core.V1"/>
+    </edmx:Reference>
+    <edmx:DataServices>
+        <Schema Namespace="OAAssignmentService" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+            <Annotation Term="Core.Links">
+                <Collection>
+                    <Record>
+                        <PropertyValue Property="rel" String="author"/>
+                        <PropertyValue Property="href" String="https://cap.cloud.sap"/>
+                    </Record>
+                </Collection>
+            </Annotation>
+            <EntityContainer Name="EntityContainer">
+                <EntitySet Name="MaterialMaster" EntityType="OAAssignmentService.MaterialMaster">
+                    <NavigationPropertyBinding Path="toMapping" Target="MaterialOAMapping"/>
+                </EntitySet>
+                <EntitySet Name="MaterialOAMapping" EntityType="OAAssignmentService.MaterialOAMapping">
+                    <NavigationPropertyBinding Path="toMaterial" Target="MaterialMaster"/>
+                    <NavigationPropertyBinding Path="toRules" Target="OARules"/>
+                </EntitySet>
+                <EntitySet Name="OARules" EntityType="OAAssignmentService.OARules"/>
+                <EntitySet Name="DashboardMetrics" EntityType="OAAssignmentService.DashboardMetrics"/>
+                <EntitySet Name="OrderAreaSummary" EntityType="OAAssignmentService.OrderAreaSummary"/>
+                <EntitySet Name="DistributionCentreSummary" EntityType="OAAssignmentService.DistributionCentreSummary"/>
+            </EntityContainer>
+            <EntityType Name="MaterialMaster">
+                <Key>
+                    <PropertyRef Name="MANDT"/>
+                    <PropertyRef Name="MATNR"/>
+                </Key>
+                <Property Name="MANDT" Type="Edm.String" MaxLength="3" Nullable="false"/>
+                <Property Name="MATNR" Type="Edm.String" MaxLength="20" Nullable="false"/>
+                <Property Name="ERSDA" Type="Edm.Date"/>
+                <Property Name="CREATED_AT_TIME" Type="Edm.TimeOfDay"/>
+                <Property Name="ERNAM" Type="Edm.String" MaxLength="20"/>
+                <Property Name="LAEDA" Type="Edm.Date"/>
+                <Property Name="AENAM" Type="Edm.String" MaxLength="20"/>
+                <Property Name="VPSTA" Type="Edm.String" MaxLength="2"/>
+                <Property Name="PSTAT" Type="Edm.String" MaxLength="2"/>
+                <Property Name="LVORM" Type="Edm.String" MaxLength="1"/>
+                <Property Name="MTART" Type="Edm.String" MaxLength="10"/>
+                <Property Name="MBRSH" Type="Edm.String" MaxLength="1"/>
+                <Property Name="MATKL" Type="Edm.String" MaxLength="10"/>
+                <Property Name="BISMT" Type="Edm.String" MaxLength="20"/>
+                <Property Name="MEINS" Type="Edm.String" MaxLength="10"/>
+                <Property Name="BSTME" Type="Edm.String" MaxLength="10"/>
+                <Property Name="PRODUCT_DESCRIPTION" Type="Edm.String" MaxLength="100"/>
+                <NavigationProperty Name="toMapping" Type="OAAssignmentService.MaterialOAMapping">
+                    <ReferentialConstraint Property="MATNR" ReferencedProperty="MATNR"/>
+                </NavigationProperty>
+            </EntityType>
+            <EntityType Name="MaterialOAMapping">
+                <Key>
+                    <PropertyRef Name="MANDT"/>
+                    <PropertyRef Name="MATNR"/>
+                </Key>
+                <Property Name="MANDT" Type="Edm.String" MaxLength="3" Nullable="false"/>
+                <Property Name="MATNR" Type="Edm.String" MaxLength="20" Nullable="false"/>
+                <Property Name="ORDER_AREA_ID" Type="Edm.Int32"/>
+                <Property Name="ASSIGNMENT_STATUS" Type="Edm.String" MaxLength="20"/>
+                <Property Name="DISTRIBUTION_CENTRE" Type="Edm.String" MaxLength="10"/>
+                <Property Name="ARTICLE_TYPE" Type="Edm.String" MaxLength="10"/>
+                <Property Name="ASSIGNED_BY" Type="Edm.String" MaxLength="20"/>
+                <Property Name="ASSIGNED_AT" Type="Edm.DateTimeOffset" Precision="7"/>
+                <Property Name="LAST_CHANGED_AT" Type="Edm.DateTimeOffset" Precision="7"/>
+                <Property Name="OA_DESCRIPTION" Type="Edm.String" MaxLength="50"/>
+                <NavigationProperty Name="toMaterial" Type="OAAssignmentService.MaterialMaster">
+                    <ReferentialConstraint Property="MATNR" ReferencedProperty="MATNR"/>
+                </NavigationProperty>
+                <NavigationProperty Name="toRules" Type="Collection(OAAssignmentService.OARules)"/>
+            </EntityType>
+            <EntityType Name="OARules">
+                <Key>
+                    <PropertyRef Name="DISTRIBUTION_CENTRE"/>
+                    <PropertyRef Name="ARTICLE_TYPE"/>
+                    <PropertyRef Name="ORDER_AREA_ID"/>
+                </Key>
+                <Property Name="DISTRIBUTION_CENTRE" Type="Edm.String" MaxLength="10" Nullable="false"/>
+                <Property Name="ARTICLE_TYPE" Type="Edm.String" MaxLength="10" Nullable="false"/>
+                <Property Name="ORDER_AREA_ID" Type="Edm.Int32" Nullable="false"/>
+                <Property Name="TRANSPORTATION_GROUP" Type="Edm.String" MaxLength="10"/>
+                <Property Name="HIERARCHY_NODE_2" Type="Edm.String" MaxLength="20"/>
+                <Property Name="HIERARCHY_NODE" Type="Edm.String" MaxLength="20"/>
+                <Property Name="LAYOUT_MODULE" Type="Edm.String" MaxLength="50"/>
+                <Property Name="DISTR_PROFILE" Type="Edm.String" MaxLength="20"/>
+                <Property Name="BASE_UNIT_OF_MEASURE" Type="Edm.String" MaxLength="10"/>
+                <Property Name="ROUNDING_PROFILE" Type="Edm.String" MaxLength="10"/>
+                <Property Name="SHIPPING_INSTR" Type="Edm.String" MaxLength="10"/>
+                <Property Name="STAGING_TIME_LOW" Type="Edm.Decimal" Precision="5" Scale="2"/>
+                <Property Name="UNIT_OF_MEASURE_GRP" Type="Edm.String" MaxLength="10"/>
+                <Property Name="FREEZE_THAW" Type="Edm.String" MaxLength="1"/>
+                <Property Name="MIN_REM_SHELF_LIFE" Type="Edm.Int32"/>
+                <Property Name="MIN_REM_SHELF_LIFE_2" Type="Edm.Int32"/>
+                <Property Name="STAGING_TIME_HIGH" Type="Edm.Decimal" Precision="5" Scale="2"/>
+                <Property Name="CREATED_AT_TIMESTAMP" Type="Edm.DateTimeOffset" Precision="7"/>
+                <Property Name="CHANGED_AT_TIMESTAMP" Type="Edm.DateTimeOffset" Precision="7"/>
+                <Property Name="USER_NAME" Type="Edm.String" MaxLength="40"/>
+                <Property Name="DEACTIVATION" Type="Edm.String" MaxLength="1"/>
+            </EntityType>
+            <EntityType Name="DashboardMetrics">
+                <Key>
+                    <PropertyRef Name="ID"/>
+                </Key>
+                <Property Name="ID" Type="Edm.Int32" Nullable="false"/>
+                <Property Name="TotalProducts" Type="Edm.Int32"/>
+                <Property Name="AssignedProducts" Type="Edm.Int32"/>
+                <Property Name="UnassignedProducts" Type="Edm.Int32"/>
+                <Property Name="AutomationRate" Type="Edm.Decimal" Precision="5" Scale="2"/>
+            </EntityType>
+            <EntityType Name="OrderAreaSummary">
+                <Key>
+                    <PropertyRef Name="ORDER_AREA_ID"/>
+                    <PropertyRef Name="OA_DESCRIPTION"/>
+                </Key>
+                <Property Name="ORDER_AREA_ID" Type="Edm.Int32" Nullable="false"/>
+                <Property Name="OA_DESCRIPTION" Type="Edm.String" MaxLength="50" Nullable="false"/>
+                <Property Name="TotalProducts" Type="Edm.Int32"/>
+                <Property Name="AssignedProducts" Type="Edm.Int32"/>
+                <Property Name="UnassignedProducts" Type="Edm.Int32"/>
+                <Property Name="AssignmentRate" Type="Edm.Decimal" Precision="5" Scale="2"/>
+            </EntityType>
+            <EntityType Name="DistributionCentreSummary">
+                <Key>
+                    <PropertyRef Name="DISTRIBUTION_CENTRE"/>
+                </Key>
+                <Property Name="DISTRIBUTION_CENTRE" Type="Edm.String" MaxLength="10" Nullable="false"/>
+                <Property Name="TotalProducts" Type="Edm.Int32"/>
+                <Property Name="AssignedProducts" Type="Edm.Int32"/>
+                <Property Name="UnassignedProducts" Type="Edm.Int32"/>
+            </EntityType>
+            <Annotations Target="OAAssignmentService.EntityContainer/MaterialMaster">
+                <Annotation Term="Capabilities.DeleteRestrictions">
+                    <Record Type="Capabilities.DeleteRestrictionsType">
+                        <PropertyValue Property="Deletable" Bool="false"/>
+                    </Record>
+                </Annotation>
+                <Annotation Term="Capabilities.InsertRestrictions">
+                    <Record Type="Capabilities.InsertRestrictionsType">
+                        <PropertyValue Property="Insertable" Bool="false"/>
+                    </Record>
+                </Annotation>
+                <Annotation Term="Capabilities.UpdateRestrictions">
+                    <Record Type="Capabilities.UpdateRestrictionsType">
+                        <PropertyValue Property="Updatable" Bool="false"/>
+                    </Record>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="OAAssignmentService.EntityContainer/MaterialOAMapping">
+                <Annotation Term="Capabilities.DeleteRestrictions">
+                    <Record Type="Capabilities.DeleteRestrictionsType">
+                        <PropertyValue Property="Deletable" Bool="false"/>
+                    </Record>
+                </Annotation>
+                <Annotation Term="Capabilities.InsertRestrictions">
+                    <Record Type="Capabilities.InsertRestrictionsType">
+                        <PropertyValue Property="Insertable" Bool="false"/>
+                    </Record>
+                </Annotation>
+                <Annotation Term="Capabilities.UpdateRestrictions">
+                    <Record Type="Capabilities.UpdateRestrictionsType">
+                        <PropertyValue Property="Updatable" Bool="false"/>
+                    </Record>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="OAAssignmentService.EntityContainer/OARules">
+                <Annotation Term="Capabilities.DeleteRestrictions">
+                    <Record Type="Capabilities.DeleteRestrictionsType">
+                        <PropertyValue Property="Deletable" Bool="false"/>
+                    </Record>
+                </Annotation>
+                <Annotation Term="Capabilities.InsertRestrictions">
+                    <Record Type="Capabilities.InsertRestrictionsType">
+                        <PropertyValue Property="Insertable" Bool="false"/>
+                    </Record>
+                </Annotation>
+                <Annotation Term="Capabilities.UpdateRestrictions">
+                    <Record Type="Capabilities.UpdateRestrictionsType">
+                        <PropertyValue Property="Updatable" Bool="false"/>
+                    </Record>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="OAAssignmentService.EntityContainer/DashboardMetrics">
+                <Annotation Term="Capabilities.DeleteRestrictions">
+                    <Record Type="Capabilities.DeleteRestrictionsType">
+                        <PropertyValue Property="Deletable" Bool="false"/>
+                    </Record>
+                </Annotation>
+                <Annotation Term="Capabilities.InsertRestrictions">
+                    <Record Type="Capabilities.InsertRestrictionsType">
+                        <PropertyValue Property="Insertable" Bool="false"/>
+                    </Record>
+                </Annotation>
+                <Annotation Term="Capabilities.UpdateRestrictions">
+                    <Record Type="Capabilities.UpdateRestrictionsType">
+                        <PropertyValue Property="Updatable" Bool="false"/>
+                    </Record>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="OAAssignmentService.DashboardMetrics/ID">
+                <Annotation Term="Core.Computed" Bool="true"/>
+            </Annotations>
+            <Annotations Target="OAAssignmentService.DashboardMetrics/TotalProducts">
+                <Annotation Term="Core.Computed" Bool="true"/>
+            </Annotations>
+            <Annotations Target="OAAssignmentService.DashboardMetrics/AssignedProducts">
+                <Annotation Term="Core.Computed" Bool="true"/>
+            </Annotations>
+            <Annotations Target="OAAssignmentService.DashboardMetrics/UnassignedProducts">
+                <Annotation Term="Core.Computed" Bool="true"/>
+            </Annotations>
+            <Annotations Target="OAAssignmentService.DashboardMetrics/AutomationRate">
+                <Annotation Term="Core.Computed" Bool="true"/>
+            </Annotations>
+            <Annotations Target="OAAssignmentService.EntityContainer/OrderAreaSummary">
+                <Annotation Term="Capabilities.DeleteRestrictions">
+                    <Record Type="Capabilities.DeleteRestrictionsType">
+                        <PropertyValue Property="Deletable" Bool="false"/>
+                    </Record>
+                </Annotation>
+                <Annotation Term="Capabilities.InsertRestrictions">
+                    <Record Type="Capabilities.InsertRestrictionsType">
+                        <PropertyValue Property="Insertable" Bool="false"/>
+                    </Record>
+                </Annotation>
+                <Annotation Term="Capabilities.UpdateRestrictions">
+                    <Record Type="Capabilities.UpdateRestrictionsType">
+                        <PropertyValue Property="Updatable" Bool="false"/>
+                    </Record>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="OAAssignmentService.OrderAreaSummary/TotalProducts">
+                <Annotation Term="Core.Computed" Bool="true"/>
+            </Annotations>
+            <Annotations Target="OAAssignmentService.OrderAreaSummary/AssignedProducts">
+                <Annotation Term="Core.Computed" Bool="true"/>
+            </Annotations>
+            <Annotations Target="OAAssignmentService.OrderAreaSummary/UnassignedProducts">
+                <Annotation Term="Core.Computed" Bool="true"/>
+            </Annotations>
+            <Annotations Target="OAAssignmentService.OrderAreaSummary/AssignmentRate">
+                <Annotation Term="Core.Computed" Bool="true"/>
+            </Annotations>
+            <Annotations Target="OAAssignmentService.EntityContainer/DistributionCentreSummary">
+                <Annotation Term="Capabilities.DeleteRestrictions">
+                    <Record Type="Capabilities.DeleteRestrictionsType">
+                        <PropertyValue Property="Deletable" Bool="false"/>
+                    </Record>
+                </Annotation>
+                <Annotation Term="Capabilities.InsertRestrictions">
+                    <Record Type="Capabilities.InsertRestrictionsType">
+                        <PropertyValue Property="Insertable" Bool="false"/>
+                    </Record>
+                </Annotation>
+                <Annotation Term="Capabilities.UpdateRestrictions">
+                    <Record Type="Capabilities.UpdateRestrictionsType">
+                        <PropertyValue Property="Updatable" Bool="false"/>
+                    </Record>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="OAAssignmentService.DistributionCentreSummary/TotalProducts">
+                <Annotation Term="Core.Computed" Bool="true"/>
+            </Annotations>
+            <Annotations Target="OAAssignmentService.DistributionCentreSummary/AssignedProducts">
+                <Annotation Term="Core.Computed" Bool="true"/>
+            </Annotations>
+            <Annotations Target="OAAssignmentService.DistributionCentreSummary/UnassignedProducts">
+                <Annotation Term="Core.Computed" Bool="true"/>
+            </Annotations>
+        </Schema>
+    </edmx:DataServices>
+</edmx:Edmx>

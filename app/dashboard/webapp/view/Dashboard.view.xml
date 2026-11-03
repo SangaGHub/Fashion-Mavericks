@@ -1,0 +1,213 @@
+<mvc:View
+	controllerName="aldi.oa.dashboard.controller.Dashboard"
+	xmlns:mvc="sap.ui.core.mvc"
+	xmlns="sap.m"
+	xmlns:l="sap.ui.layout"
+	xmlns:f="sap.ui.layout.form"
+	xmlns:core="sap.ui.core"
+	displayBlock="true"
+	height="100%">
+
+	<Page
+		id="dashboardPage"
+		title="{i18n>dashboardTitle}"
+		showNavButton="false"
+		enableScrolling="true"
+		class="dashboardPage">
+
+		<customHeader>
+			<Bar class="sapUiSmallMarginBottom">
+				<contentLeft>
+					<Button icon="sap-icon://sap-logo-shape" class="sapUiTinyMarginEnd"/>
+					<Title text="{i18n>dashboardTitle}" level="H1"/>
+				</contentLeft>
+				<contentRight>
+					<Button
+						icon="sap-icon://list"
+						text="View Details"
+						type="Emphasized"
+						press="onNavigateToDetailList"
+						class="sapUiTinyMarginEnd"/>
+					<Button icon="sap-icon://lightbulb"/>
+					<Button icon="sap-icon://bell"/>
+					<Button icon="sap-icon://settings"/>
+					<Button icon="sap-icon://person-placeholder" text="KT"/>
+				</contentRight>
+			</Bar>
+		</customHeader>
+
+		<content>
+			<VBox class="sapUiContentPadding" width="100%">
+
+				<!-- Hero Section -->
+				<HBox class="heroSection sapUiMediumMarginBottom">
+					<VBox width="100%">
+						<Title
+							text="{dashboardModel>/metrics/AutomationRate}% {i18n>automationRate}"
+							level="H2"
+							class="automationRateTitle"/>
+						<Text text="Germany DC (DE-473) — Today's OA Run — 02 Nov 2026" class="heroSubtext sapUiTinyMarginBottom"/>
+						<HBox>
+							<Text text="Target: 99% — Gap: {= 99 - ${dashboardModel>/metrics/AutomationRate} }% — 0 recommendations approved today" class="heroSubtext"/>
+						</HBox>
+					</VBox>
+
+					<HBox class="heroStats" width="40%">
+						<VBox class="statBox sapUiMediumMarginEnd" alignItems="Center">
+							<Title text="{dashboardModel>/metrics/AssignedProducts}" level="H2" class="statNumber blueText"/>
+							<Text text="{i18n>assigned}" class="statLabel"/>
+						</VBox>
+						<VBox class="statBox sapUiMediumMarginEnd" alignItems="Center">
+							<Title text="{dashboardModel>/metrics/TotalProducts}" level="H2" class="statNumber"/>
+							<Text text="{i18n>total}" class="statLabel"/>
+						</VBox>
+						<VBox class="statBox" alignItems="Center">
+							<Title text="{dashboardModel>/metrics/UnassignedProducts}" level="H2" class="statNumber orangeText"/>
+							<Text text="{i18n>unassigned}" class="statLabel"/>
+						</VBox>
+					</HBox>
+				</HBox>
+
+				<!-- Summary Cards -->
+				<Title text="{i18n>todayRunSummary}" level="H3" class="sapUiMediumMarginBottom sectionTitle"/>
+
+				<HBox class="sapUiMediumMarginBottom">
+
+					<!-- Total Products Card -->
+					<VBox class="summaryCard grayBorder sapUiSmallMarginEnd clickableCard" width="32%">
+						<HBox justifyContent="SpaceBetween" alignItems="Center" class="sapUiSmallMarginBottom">
+							<core:Icon src="sap-icon://product" size="2rem" color="Default"/>
+							<ObjectStatus text="+347 vs yesterday" state="Success" icon="sap-icon://trend-up"/>
+						</HBox>
+						<Title text="{dashboardModel>/metrics/TotalProducts}" level="H1" class="cardNumber"/>
+						<Title text="{i18n>totalProductsProcessed}" level="H4" class="cardTitle sapUiSmallMarginBottom"/>
+						<FlexBox alignItems="Center" class="sapUiTinyMarginBottom">
+							<core:Icon src="sap-icon://circle-task" size="3rem" color="Default" class="sapUiTinyMarginEnd pieChart"/>
+							<VBox>
+								<HBox>
+									<core:Icon src="sap-icon://circle-task-2" size="0.75rem" color="Default" class="sapUiTinyMarginEnd"/>
+									<Text text="{i18n>assigned}" class="sapUiTinyMarginEnd"/>
+									<Text text="{dashboardModel>/metrics/AutomationRate}%"/>
+								</HBox>
+								<HBox>
+									<core:Icon src="sap-icon://circle-task-2" size="0.75rem" color="#FFA500" class="sapUiTinyMarginEnd"/>
+									<Text text="Not {i18n>assigned}" class="sapUiTinyMarginEnd"/>
+									<Text text="{= 100 - ${dashboardModel>/metrics/AutomationRate} }%"/>
+								</HBox>
+							</VBox>
+						</FlexBox>
+						<ProgressIndicator
+							percentValue="{dashboardModel>/metrics/AutomationRate}"
+							displayValue="{dashboardModel>/metrics/AutomationRate}% assigned"
+							state="Success"
+							class="sapUiSmallMarginBottom"/>
+						<HBox justifyContent="SpaceBetween" class="sapUiTinyMarginBottom">
+							<Text text="" class="smallText"/>
+							<Text text="Target 99%" class="smallText"/>
+						</HBox>
+					</VBox>
+
+					<!-- Products Assigned Card -->
+					<VBox class="summaryCard greenBorder sapUiSmallMarginEnd clickableCard" width="32%">
+						<HBox justifyContent="SpaceBetween" alignItems="Center" class="sapUiSmallMarginBottom">
+							<core:Icon src="sap-icon://accept" size="2rem" color="Positive"/>
+							<ObjectStatus text="+2.1% vs last week" state="Success" icon="sap-icon://trend-up"/>
+						</HBox>
+						<Title text="{dashboardModel>/metrics/AssignedProducts}" level="H1" class="cardNumber greenText"/>
+						<Title text="{i18n>productsAssignedToOA}" level="H4" class="cardTitle sapUiSmallMarginBottom"/>
+						<VBox class="sapUiSmallMarginBottom">
+							<HBox justifyContent="SpaceBetween">
+								<Text text="OAs active today:"/>
+								<Text text="6 of 6" class="boldText"/>
+							</HBox>
+							<HBox justifyContent="SpaceBetween">
+								<Text text="Auto-assigned:"/>
+								<Text text="100%" class="boldText greenText"/>
+							</HBox>
+							<HBox justifyContent="SpaceBetween">
+								<Text text="New articles today:"/>
+								<Text text="+238" class="boldText"/>
+							</HBox>
+						</VBox>
+						<ProgressIndicator
+							percentValue="91"
+							displayValue="91% of total"
+							state="Success"/>
+					</VBox>
+
+					<!-- Products Not Assigned Card -->
+					<VBox class="summaryCard orangeBorder clickableCard" width="32%">
+						<HBox justifyContent="SpaceBetween" alignItems="Center" class="sapUiSmallMarginBottom">
+							<core:Icon src="sap-icon://alert" size="2rem" color="Critical"/>
+							<ObjectStatus text="-218 vs yesterday" state="Error" icon="sap-icon://trend-down"/>
+						</HBox>
+						<Title text="{dashboardModel>/metrics/UnassignedProducts}" level="H1" class="cardNumber orangeText"/>
+						<Title text="{i18n>productsNotAssignedToOA}" level="H4" class="cardTitle sapUiSmallMarginBottom"/>
+						<VBox class="sapUiSmallMarginBottom">
+							<HBox justifyContent="SpaceBetween">
+								<Text text="Rule mismatch:"/>
+								<Text text="{= ${dashboardModel>/metrics/UnassignedProducts} * 0.57 }" class="boldText orangeText"/>
+							</HBox>
+							<HBox justifyContent="SpaceBetween">
+								<Text text="Missing master data:"/>
+								<Text text="{= ${dashboardModel>/metrics/UnassignedProducts} * 0.27 }" class="boldText orangeText"/>
+							</HBox>
+							<HBox justifyContent="SpaceBetween">
+								<Text text="No matching rule:"/>
+								<Text text="{= ${dashboardModel>/metrics/UnassignedProducts} * 0.16 }" class="boldText orangeText"/>
+							</HBox>
+						</VBox>
+						<ProgressIndicator
+							percentValue="9"
+							displayValue="9% needs attention"
+							state="Warning"/>
+					</VBox>
+
+				</HBox>
+
+				<!-- Order Area Breakdown -->
+				<Title text="{i18n>productsAssignedByOrderArea}" level="H3" class="sapUiMediumMarginBottom sectionTitle"/>
+
+				<l:Grid
+					defaultSpan="L4 M6 S12"
+					hSpacing="1"
+					vSpacing="1"
+					class="orderAreaGrid"
+					content="{dashboardModel>/orderAreas}">
+
+					<VBox class="orderAreaCard clickableCard">
+						<HBox justifyContent="SpaceBetween" alignItems="Center" class="sapUiSmallMarginBottom">
+							<HBox alignItems="Center">
+								<core:Icon src="sap-icon://product" size="2rem" color="Default" class="sapUiTinyMarginEnd"/>
+								<VBox>
+									<Title text="{dashboardModel>OA_DESCRIPTION}" level="H4"/>
+									<Text text="OA-{dashboardModel>ORDER_AREA_ID}" class="smallText mutedText"/>
+								</VBox>
+							</HBox>
+							<ObjectStatus text="{i18n>active}" state="Success"/>
+						</HBox>
+
+						<Title text="{dashboardModel>AssignedProducts}" level="H1" class="cardNumber blueText"/>
+						<Text text="{i18n>productsAssigned}" class="sapUiSmallMarginBottom"/>
+
+						<ProgressIndicator
+							percentValue="{dashboardModel>AssignmentRate}"
+							displayValue="{dashboardModel>AssignmentRate}%"
+							state="{= ${dashboardModel>AssignmentRate} >= 95 ? 'Success' : ${dashboardModel>AssignmentRate} >= 85 ? 'Warning' : 'Error' }"
+							class="sapUiSmallMarginBottom"/>
+
+						<HBox justifyContent="SpaceBetween">
+							<Text text="{i18n>of} {dashboardModel>TotalProducts} assigned" class="smallText"/>
+						</HBox>
+					</VBox>
+
+					</l:Grid>
+
+				</VBox>
+			
+		</content>
+	</Page>
+	
+
+	
+</mvc:View>

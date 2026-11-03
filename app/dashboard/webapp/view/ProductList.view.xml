@@ -1,0 +1,121 @@
+<mvc:View
+	controllerName="aldi.oa.dashboard.controller.ProductList"
+	xmlns:mvc="sap.ui.core.mvc"
+	xmlns="sap.m"
+	xmlns:core="sap.ui.core"
+	displayBlock="true"
+	height="100%">
+
+	<Page
+		id="productListPage"
+		title="{productListModel>/pageTitle}"
+		showNavButton="true"
+		navButtonPress="onNavBack"
+		enableScrolling="false">
+
+		<content>
+			<VBox class="sapUiSmallMargin">
+				<!-- Filter Indicator -->
+				<MessageStrip
+					text="{productListModel>/filterMessage}"
+					type="{productListModel>/filterMessageType}"
+					showIcon="true"
+					class="sapUiSmallMarginBottom"/>
+
+				<!-- Product Count and Search Bar -->
+				<Toolbar>
+					<Title text="{productListModel>/countText}" level="H2"/>
+					<ToolbarSpacer/>
+					<SearchField
+						id="materialSearchField"
+						placeholder="Search by Material Number"
+						width="300px"
+						search="onSearch"
+						class="sapUiSmallMarginEnd"/>
+					<Button
+						id="aiSuggestButton"
+						icon="sap-icon://lightbulb"
+						text="Suggest OA via AI"
+						type="Emphasized"
+						press="onAISuggest"
+						visible="{productListModel>/showAIButton}"
+						enabled="{productListModel>/aiButtonEnabled}"/>
+					<Button
+						id="unassignButton"
+						icon="sap-icon://undo"
+						text="Unassign"
+						type="Reject"
+						press="onUnassign"
+						visible="{productListModel>/showUnassignButton}"
+						enabled="{productListModel>/unassignButtonEnabled}"/>
+					<Button
+						icon="sap-icon://excel-attachment"
+						text="Export"
+						press="onExport"/>
+				</Toolbar>
+
+				<!-- Products Table in Scrollable Container -->
+				<ScrollContainer
+					height="600px"
+					width="100%"
+					vertical="true"
+					horizontal="false">
+					<Table
+						id="productTable"
+						items="{
+							path: '/MaterialOAMapping',
+							parameters: {
+								$expand: 'toMaterial'
+							}
+						}"
+						mode="{productListModel>/tableMode}"
+						includeItemInSelection="true"
+						selectionChange="onSelectionChange"
+						class="sapUiResponsiveMargin"
+						width="auto">
+
+					<columns>
+						<Column width="10rem">
+							<Text text="Product Number"/>
+						</Column>
+						<Column width="15rem" demandPopin="true" minScreenWidth="Tablet">
+							<Text text="Product Description"/>
+						</Column>
+						<Column width="8rem" demandPopin="true" minScreenWidth="Desktop"
+							visible="{= ${productListModel>/filterType} !== 'unassigned' }">
+							<Text text="Order Area"/>
+						</Column>
+						<Column width="12rem" demandPopin="true" minScreenWidth="Tablet"
+							visible="{= ${productListModel>/filterType} !== 'unassigned' }">
+							<Text text="Order Area Description"/>
+						</Column>
+						<Column width="10rem" demandPopin="true" minScreenWidth="Desktop">
+							<Text text="Distribution Centre"/>
+						</Column>
+						<Column width="8rem" demandPopin="true" minScreenWidth="Desktop">
+							<Text text="Article Type"/>
+						</Column>
+					</columns>
+
+					<items>
+						<ColumnListItem>
+							<cells>
+								<ObjectIdentifier
+									title="{MATNR}"
+									text="Material"/>
+								<Text text="{toMaterial/PRODUCT_DESCRIPTION}"/>
+								<Text text="{ORDER_AREA_ID}"
+									visible="{= ${productListModel>/filterType} !== 'unassigned' }"/>
+								<Text text="{OA_DESCRIPTION}"
+									visible="{= ${productListModel>/filterType} !== 'unassigned' }"/>
+								<Text text="{DISTRIBUTION_CENTRE}"/>
+								<Text text="{ARTICLE_TYPE}"/>
+							</cells>
+						</ColumnListItem>
+					</items>
+					</Table>
+				</ScrollContainer>
+			</VBox>
+		</content>
+	</Page>
+</mvc:View>

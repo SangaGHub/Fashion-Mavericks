@@ -1,0 +1,32 @@
+node_modules/
+target/
+_out/
+gen/
+.cds/
+
+.cdsrc-private.json
+default-*.json
+*.sqlite
+
+# MTA
+mta_archives/
+*_mta_build_tmp
+*.mtar
+
+# Other
+.DS_Store
+
+# Environment and Credentials
+.env
+.env.local
+.env.*.local
+*-credentials.json
+*.pem
+*.p12
+
+# @cap-js/cds-typer
+@cds-models
+
+# SQLite runtime files (transient)
+*.db-shm
+*.db-wal

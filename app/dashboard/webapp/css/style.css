@@ -1,0 +1,202 @@
+/* Root Container Height Fix */
+html, body {
+	height: 100%;
+	margin: 0;
+	padding: 0;
+}
+
+#content {
+	height: 100%;
+}
+
+#content > div {
+	height: 100%;
+}
+
+/* Dashboard Page */
+.dashboardPage .sapMPageHeader {
+	background-color: #1d2d3e;
+	color: white;
+}
+
+.dashboardPage {
+	background-color: #f5f6f7;
+}
+
+/* Hero Section */
+.heroSection {
+	background: linear-gradient(135deg, #1d3557 0%, #2a4a6f 100%);
+	color: white;
+	padding: 2rem;
+	border-radius: 8px;
+	margin-bottom: 1.5rem;
+}
+
+.automationRateTitle {
+	color: white;
+	font-size: 2.5rem;
+	font-weight: 700;
+}
+
+.heroSubtext {
+	color: rgba(255, 255, 255, 0.9);
+	font-size: 1rem;
+}
+
+.statLabel {
+	color: white;
+	font-weight: 500;
+}
+
+.circleIcon {
+	background-color: white;
+	border-radius: 50%;
+	padding: 1rem;
+}
+
+.heroStats {
+	align-items: flex-end;
+	justify-content: flex-end;
+}
+
+.statBox {
+	text-align: center;
+	padding: 1rem;
+	background-color: rgba(255, 255, 255, 0.1);
+	border-radius: 8px;
+	min-width: 100px;
+}
+
+.statNumber {
+	font-size: 2.5rem;
+	font-weight: 700;
+	color: white;
+	margin: 0;
+}
+
+.blueText {
+	color: #0070f2 !important;
+}
+
+.greenText {
+	color: #10b981 !important;
+}
+
+.orangeText {
+	color: #f97316 !important;
+}
+
+/* Section Titles */
+.sectionTitle {
+	color: #6b7280;
+	text-transform: uppercase;
+	font-size: 0.875rem;
+	font-weight: 600;
+	letter-spacing: 0.05em;
+	margin-top: 2rem;
+}
+
+/* Summary Cards */
+.summaryCard {
+	background-color: white;
+	border-radius: 8px;
+	padding: 1.5rem;
+	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+	border-top: 4px solid #e5e7eb;
+}
+
+.clickableCard {
+	cursor: pointer;
+	transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.clickableCard:hover {
+	transform: translateY(-2px);
+	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.cardTitle {
+	font-weight: 700;
+	font-size: 1.1rem;
+}
+
+.grayBorder {
+	border-top-color: #60a5fa;
+}
+
+.greenBorder {
+	border-top-color: #10b981;
+}
+
+.orangeBorder {
+	border-top-color: #f97316;
+}
+
+.cardNumber {
+	font-size: 3rem;
+	font-weight: 700;
+	margin: 0.5rem 0;
+}
+
+.boldText {
+	font-weight: 600;
+}
+
+.smallText {
+	font-size: 0.875rem;
+	color: #6b7280;
+}
+
+.mutedText {
+	color: #9ca3af;
+}
+
+/* Order Area Grid */
+.orderAreaGrid {
+	margin-top: 1rem;
+}
+
+.orderAreaCard {
+	background-color: white;
+	border-radius: 8px;
+	padding: 1.5rem;
+	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+	margin: 0.5rem;
+	border-top: 4px solid #60a5fa;
+}
+
+/* Progress Indicators */
+.sapMPI {
+	height: 12px !important;
+}
+
+.sapMPIBarSuccess {
+	background-color: #10b981 !important;
+}
+
+.sapMPIBarWarning {
+	background-color: #f59e0b !important;
+}
+
+/* Icons */
+.pieChart {
+	color: #60a5fa !important;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+	.heroSection {
+		flex-direction: column;
+	}
+
+	.heroStats {
+		margin-top: 1rem;
+		width: 100%;
+		justify-content: space-around;
+	}
+
+	.summaryCard {
+		width: 100% !important;
+		margin-bottom: 1rem;
+	}
+}

@@ -1,0 +1,36 @@
+{
+  "name": "aldi-oa-assignment",
+  "version": "1.0.0",
+  "description": "OA Assignment Monitor - ALDI Distribution Management",
+  "type": "module",
+  "dependencies": {
+    "@sap-ai-sdk/foundation-models": "^2.17.0",
+    "@sap/cds": "^10",
+    "axios": "^1.21.0",
+    "dotenv": "^18.0.9",
+    "express": "^4"
+  },
+  "devDependencies": {
+    "@cap-js/sqlite": "^3",
+    "@sap/cds-dk": "^10"
+  },
+  "scripts": {
+    "start": "cds-serve",
+    "watch": "cds watch",
+    "build": "cds build --production"
+  },
+  "cds": {
+    "requires": {
+      "db": {
+        "kind": "sqlite",
+        "credentials": {
+          "url": "db/aldi-oa.db"
+        }
+      }
+    },
+    "features": {
+      "fetch_csrf": true
+    }
+  },
+  "private": true
+}
